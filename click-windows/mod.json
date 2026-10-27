@@ -1,0 +1,177 @@
+{
+	"geode": "5.11.1",
+	"gd": {
+		"win": "2.2081",
+		"android": "2.2081",
+		"mac": "2.2081",
+		"ios": "2.2081"
+	},
+	"id": "yourname.click-windows",
+	"name": "Click Window Counter",
+	"version": "v1.0.0",
+	"developer": "YourName",
+	"description": "Load a .gdr2 macro, measure the frame window (at 240 Hz) of every click and release by re-simulating shifted inputs, then show the numbers as markers in the level.",
+	"tags": [
+		"utility",
+		"developer"
+	],
+	"settings": {
+		"max-offset": {
+			"type": "int",
+			"name": "Max offset (frames)",
+			"description": "How many frames early/late each click is tested (at 240 Hz). The biggest window that can be reported is 2x this + 1.",
+			"default": 12,
+			"min": 1,
+			"max": 40
+		},
+		"tail-frames": {
+			"type": "int",
+			"name": "Survive after next click (frames)",
+			"description": "A shifted click only counts as a pass if the player survives until this many frames after the next click.",
+			"default": 30,
+			"min": 5,
+			"max": 120
+		},
+		"max-horizon": {
+			"type": "int",
+			"name": "Max simulation length (frames)",
+			"description": "Never simulate longer than this after a click, even if the next click is far away.",
+			"default": 240,
+			"min": 60,
+			"max": 960
+		},
+		"analysis-speed": {
+			"type": "float",
+			"name": "Analysis speed",
+			"description": "Time scale while analyzing. Lower it if the level desyncs or the game stutters.",
+			"default": 6.0,
+			"min": 1.0,
+			"max": 20.0
+		},
+		"analyze": {
+			"type": "string",
+			"name": "What to analyze",
+			"description": "Clicks (presses), releases, or both. Releases are tested with their click held fixed.",
+			"default": "Both",
+			"one-of": [
+				"Both",
+				"Clicks",
+				"Releases"
+			]
+		},
+		"shift-release": {
+			"type": "bool",
+			"name": "Shift release with press",
+			"description": "When testing a click, move its release by the same amount, keeping the hold length.",
+			"default": true
+		},
+		"free-release": {
+			"type": "bool",
+			"name": "Free release (accurate holds)",
+			"description": "When measuring a click, also try releasing a few frames sooner or later than the shifted hold would, and count the click as passing if any of those survives. Finds the window you really have for holds like ship, but analysis takes noticeably longer. Turn off for a faster, stricter measurement.",
+			"default": true
+		},
+		"free-release-range": {
+			"type": "int",
+			"name": "Free release range (frames)",
+			"description": "How many frames sooner or later than the shifted hold the release may be, when free release is on. Bigger finds more room but takes longer.",
+			"default": 4,
+			"min": 1,
+			"max": 12
+		},
+		"conditional-windows": {
+			"type": "bool",
+			"name": "Conditional windows (next-click table)",
+			"description": "For every timing that works for a click, also measure how big the NEXT click's window is with the first click moved there. Shown as small text in the top-left corner while you play. Makes analysis much slower, so turn off for a quick pass.",
+			"default": true
+		},
+		"only-jump": {
+			"type": "bool",
+			"name": "Only analyze jump clicks",
+			"description": "Skip left/right inputs from platformer macros.",
+			"default": true
+		},
+		"show-markers": {
+			"type": "bool",
+			"name": "Show window markers",
+			"description": "Draw a coloured ring and the window size at every analyzed input. Individual rings can be switched off from the Markers button in the pause menu.",
+			"default": true
+		},
+		"show-stats": {
+			"type": "bool",
+			"name": "Show window tally",
+			"description": "A panel listing how many inputs have each window size (1, 2, 3, 4, 5-6, 7-8, 9-12, 13-14, 15+), coloured like the rings. Only inputs whose ring is visible are counted.",
+			"default": true
+		},
+		"stats-size": {
+			"type": "float",
+			"name": "Window tally size",
+			"description": "Size of the tally panel.",
+			"default": 0.4,
+			"min": 0.2,
+			"max": 1.0,
+			"control": {
+				"slider": true
+			}
+		},
+		"stats-corner": {
+			"type": "string",
+			"name": "Window tally corner",
+			"description": "Which corner of the screen the tally panel appears in.",
+			"default": "Top left",
+			"one-of": [
+				"Top left",
+				"Top right"
+			]
+		},
+		"show-conditions": {
+			"type": "bool",
+			"name": "Show conditions text",
+			"description": "Small text in the top-left corner saying, for the upcoming click, how its timing changes the next click's window.",
+			"default": true
+		},
+		"condition-text-size": {
+			"type": "float",
+			"name": "Conditions text size",
+			"description": "Size of the top-left conditions text.",
+			"default": 0.3,
+			"min": 0.15,
+			"max": 1.0,
+			"control": {
+				"slider": true
+			}
+		},
+		"conditions-corner": {
+			"type": "string",
+			"name": "Conditions text corner",
+			"description": "Which corner of the screen the conditions text appears in.",
+			"default": "Top right",
+			"one-of": [
+				"Top left",
+				"Top right"
+			]
+		},
+		"click-ring-size": {
+			"type": "float",
+			"name": "Click ring size",
+			"description": "Size of the rings (and their numbers) drawn at clicks. 1.0 is the default size.",
+			"default": 1.0,
+			"min": 0.3,
+			"max": 3.0,
+			"control": {
+				"slider": true
+			}
+		},
+		"release-ring-size": {
+			"type": "float",
+			"name": "Release ring size",
+			"description": "Size of the rings (and their numbers) drawn at releases. Smaller than clicks by default so both stay readable when they overlap.",
+			"default": 0.65,
+			"min": 0.3,
+			"max": 3.0,
+			"control": {
+				"slider": true
+			}
+		}
+	}
+}
