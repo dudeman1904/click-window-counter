@@ -124,37 +124,4 @@ analysis speed, shift release, jump-only, show markers, click ring size, release
 conditions text size, conditions text corner (default top right), show window tally, tally size, tally corner
 (default top left). Analyzing clicks and releases takes about 3x as long as clicks only.
 
-## Build (Windows 10)
-1. Install **Build Tools for Visual Studio** (Desktop development with C++), or LLVM + Ninja.
-2. Install the Geode CLI: `winget install GeodeSDK.GeodeCLI` (or via scoop / the GitHub release).
-3. `geode sdk install`, then `geode sdk install-binaries`. Reopen the terminal and check `echo %GEODE_SDK%`.
-4. `geode config setup` and point it at your Geometry Dash folder.
-5. Change `id` and `developer` in `mod.json`. If the build complains about the Geode version, set the
-   `"geode"` field to the version it names.
-6. In this folder: double-click `build.bat` (it checks the steps above and tells you what is missing), or run
-   `geode build` (or `geode build --ninja`) yourself. With a profile set up, the mod installs itself.
-7. You need Geometry Dash 2.2081 with the Geode loader installed.
-
-## Build in the cloud instead (no compiler on your PC)
-`.github/workflows/build-windows.yml` builds the mod on GitHub's own Windows machines using Geode's official build
-action, pinned to the SDK version in `mod.json`.
-1. Make a free GitHub account and a new repository.
-2. Upload the contents of this folder to it (drag the files and folders onto the "uploading an existing file"
-   page; the `.github` folder must come along).
-3. Open the repository's **Actions** tab. The build starts by itself; you can also press **Run workflow**.
-4. When it's green, open the run and download the **Windows mod (.geode)** artifact, unzip it, and put the
-   `.geode` file in your Geometry Dash folder's `geode\mods` folder. (You still need Geode installed in the game.)
-
-If the run fails, open it and copy the red error text; that is the same error a local build would show.
-
-## Tests
-`bash tests/run.sh` runs the logic tests (search algorithm against a mock game, `.gdr2` loading, JSON storage,
-colour scale). They need no Geometry Dash. See the script header for dependencies.
-
-## Known limits
-- The game-side code (`src/main.cpp`) type-checks against the real SDK headers but has never run inside
-  Geometry Dash. If analysis aborts or windows look wrong, check the Geode log (it logs every input's result
-  and any frame-counter correction).
-- Assumes physics runs at 240 TPS and that `m_gameState.m_currentProgress` is the step counter.
-- Checkpoint restore in GD is not perfectly exact, so treat results as measurements, not proofs.
 - Levels with random triggers / non-deterministic gameplay may not reproduce.
