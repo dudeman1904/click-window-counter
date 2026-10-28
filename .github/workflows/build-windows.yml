@@ -17,6 +17,7 @@ jobs:
         uses: geode-sdk/build-geode-mod@main
         with:
           sdk: given
+          configure-args: -S click-windows
 
       - name: Upload the built mod
         uses: actions/upload-artifact@v7
